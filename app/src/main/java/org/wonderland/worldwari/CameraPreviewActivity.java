@@ -35,20 +35,29 @@ public class CameraPreviewActivity extends AppCompatActivity {
         mCameraId = pref.getInt("CameraId", Camera.CameraInfo.CAMERA_FACING_BACK);
 
         setUpView();
-        openCamera();
-        startPreview();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
+        openCamera();
+        startPreview();
+        Log.i(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         closeCamera();
+        destroyPreviewSurface();
+        Log.i(TAG, "onPause");
     }
 
     @Override
     protected void onDestroy () {
         super.onDestroy();
-        destroyPreviewSurface();
+        Log.i(TAG, "onDestroy");
+
     }
 
     private void setUpView() {
